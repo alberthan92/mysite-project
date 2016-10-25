@@ -1,0 +1,88 @@
+{% extends 'common/base.html' %}
+{% load app_filters %}
+{% load humanize %}
+
+
+{% block content %}
+    <!--<nav class="navbar navbar-default">-->
+        <!--<div class="container">-->
+            <!--<div class="navbar-header">-->
+                <!--<a href="{% url 'video:search' %}" class="navbar-brand">Youtube Bookmark</a>-->
+            <!--</div>-->
+            <!--<div class="collapse navbar-collapse" id="main-navbar">-->
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                    <!--<li class="bookmark">-->
+                        <!--<a href="{% url 'video:bookmark_list' %}">Bookmark</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+
+    <h5>"{{ keyword }}"로 검색 (총 {{ response.pageInfo.totalResults|intcomma }}건이 결과검색)</h5>
+
+    <div>Searched Keyword : {{ keyword }}</div>
+    <form action="">
+        <input type="text" name="keyword" placeholder="{{ keyword }}">
+        <button type="submit">검색</button>
+    </form>
+
+
+
+    <ul>
+        {% for item in response.items %}
+        <div class="container">
+            <div class="thumbnail">
+                <img src="{{ item.snippet.thumbnails.medium.url }}" alt="">
+                <!--<p>{{ item.snippet.thumbnails }}</p>-->
+            </div>
+
+            <div class="detail">
+                <a href="#">{{ item.snippet.title }}</a>
+                <p>{{ item.snippet.description }}</p>
+                <p>{{ item.snippet.publishedAt }}</p>
+
+
+                <div>Views{{ item.statistics.viewCount }}</div>
+                <div>Likes{{ item.statistics.likeCount }}</div>
+                <div>Dislikes{{ item.statistics.dislikeCount }}</div>
+                <div>Favorites{{ item.statistics.favoriteCount }}</div>
+                <div>Comments{{ item.statistics.commentCount }}</div>
+
+
+            </div>
+
+            {% if item.is_exist %}
+            <button class="btn">Already added</button>
+
+            {% else %}
+            <form action="{% url 'video:add_bookmark' %}" method="POST">{% csrf_token %}
+                <input type="hidden" name="kind" value="{{ item.kind }}">
+                <input type="hidden" name="video_id" value="{{ item.id.videoId }}">
+                <input type="hidden" name="title" value="{{ item.snippet.title }}">
+                <input type="hidden" name="description" value="{{ item.snippet.description }}">
+                <input type="hidden" name="published_date" value="{{ item.snippet.publishedAt }}">
+                <input type="hidden" name="thumbnail_url" value="{{ item.snippet.thumbnails.medium.url }}">
+                <!--<input type="hidden" name="path" value="{{ request.get_full_path }}">-->
+                <input type="hidden" name="path" value="{{ request.get_full_path }}">
+                <button type="submit">북마크 추가</button>
+            </form>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+        {% if response.nextPageToken %}
+        <a href="{% url 'video:search' %}?keyword={{ keyword }}&page_token={{ response.nextPageToken }}">다음페이지</a>
+        {% endif %}
+
+        {% if response.prevPageToken %}
+        <a href="{% url 'video:search' %}?keyword={{ keyword }}">첫 페이지로 이동</a>
+        {% endif %}
+
+        {% if response.prevPageToken %}
+        <a href="{% url 'video:search' %}?keyword={{ keyword }}&page_token={{ response.prevPageToken }}">이전페이지</a>
+        {% endif %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+#.container {
+#    width: 120%;
+#    margin: 15px;
+#}
+
+.thumbnail {
+    float: left;
+    margin: 5px;
+}
+
+.detail {
+    width: 100%;
+    position: relative;
+    margin: 5px;
+}
+
+.counts {
+    position: relative;
+    float: right;
+
+}

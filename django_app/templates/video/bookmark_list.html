@@ -1,0 +1,27 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+
+<a href="{% url 'video:search' %}" class="btn btn-primary">Search video</a>
+
+
+    {% for video in videos %}
+    <div class="container">
+        <div class="detail">
+            <a href="{% url 'video:bookmark_detail' pk=video.pk %}">
+                <img src="{{ video.thumbnail }}" alt="">
+            </a>
+            <p>Title : {{ video.title }}</p>
+            <p>Description : {{ video.description }}</p>
+            <p>Published : {{ video.published_date|date:"Y.m.d" }}</p>
+
+            <button class="btn btn-primary">Views</button>{{ video }}
+
+        </div>
+
+    </div>
+
+
+{% endfor %}
+
+{% endblock %}

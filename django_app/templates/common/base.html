@@ -1,0 +1,113 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>New York Times Blog</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <!-- <link rel="stylesheet" href="{% static 'css/common.css' %}"> -->
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
+        <link href="//fonts.googleapis.com/css?family=Anton&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+    </head>
+    <body>
+      <nav class="navbar navbar-default">
+        <div class="container">
+
+          <div class="navbar-header">
+            <a href="{% url 'blog:post_list' %}" class="navbar-brand">Blog</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="main-navbar">
+
+            <ul class="nav navbar-nav navbar-right">
+
+              <li>
+                  <a href="{% url 'video:search' %}">Search</a>
+              </li>
+
+              {% if user.is_authenticated %}
+
+              <li>
+                  <a href="{% url 'video:bookmark_list' %}">Bookmark</a>
+              </li>
+
+              <li>
+                <a href="{% url 'blog:post_new' %}">New
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+              </li>
+
+              <li>
+                <a href="{% url 'member:logout' %}">Logout</a>
+              </li>
+
+              {% else %}
+
+              <li>
+                  <a href="{% url 'member:login' %}?next={{ request.path }}">Login</a>
+              </li>
+
+              <li>
+                  <a href="{% url 'member:signup3' %}?nextsignup={{ request.path }}">Sign up</a>
+              </li>
+
+
+
+
+
+              {% endif %}
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+      <div class="container">
+          {% if messages %}
+          <div>
+              {% for message in messages %}
+              <div class="alert alert
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}alert-info
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}alert-error
+
+              {% endif %}" role="alert">
+              <span>{{ message }}</span>
+            </div>
+              {% endfor %}
+          </div>
+          {% endif %}
+      </div>
+
+
+        <!--<div class="page-header">-->
+            <!--{% if user.is_authenticated %}-->
+            <!--<a href="{% url 'blog:post_new' %}" class="top-menu">-->
+                <!--<span class="glyphicon glyphicon-plus"></span>-->
+            <!--</a>-->
+            <!--{% else %}-->
+            <!--<div>Login!</div>-->
+            <!--{% endif %}-->
+
+            <!--<h1><a href="{% url 'blog:post_list' %}">{% block title %} New York Times Blog {% endblock title %}</a></h1>-->
+        <!--</div>-->
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
