@@ -1,6 +1,7 @@
 ######## Project Custom
 *.sqlite3
 .idea/
+media/
 
 
 ######## Config folders
