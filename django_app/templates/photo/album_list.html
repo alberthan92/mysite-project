@@ -1,0 +1,9 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+    {% for album in album_list %}
+        <p>{{ album.title }}</p>
+        <p>{{ album.owner }}</p>
+        <p>{{ album.description }}</p>
+    {% endfor %}
+{% endblock %}
