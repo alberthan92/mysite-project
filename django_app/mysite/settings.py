@@ -36,6 +36,7 @@ config_file.close()
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+STATIC_URL = '/static/'
 
 #Media files
 # 사용자 업로드 파일들이 저장되는 기본경로
@@ -45,9 +46,12 @@ MEDIA_URL = '/media/'
 
 # Auth
 AUTH_USER_MODEL = 'member.MyUser'
+
+AUTH_BACKEND_DEFAULT = 'django.contrib.auth.backends.ModelBackend'
+AUTH_BACKEND_FACEBOOK = 'member.backends.FacebookBackend'
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'member.backends.FacebookBackend',
+    AUTH_BACKEND_DEFAULT,
+    AUTH_BACKEND_FACEBOOK,
 ]
 
 # Email
@@ -174,4 +178,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+
