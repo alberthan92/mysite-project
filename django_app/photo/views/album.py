@@ -4,6 +4,7 @@ from ..forms import AlbumForm
 
 __all__ = [
     'album_list',
+    'album_add',
 ]
 
 def album_list(request):
