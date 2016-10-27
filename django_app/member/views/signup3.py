@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.conf import settings
 from member.forms import SignupModelForm
 
 def signup3(request):
@@ -9,10 +10,10 @@ def signup3(request):
         if form.is_valid():
             user = form.save()
 
-            login(request, user)
+            login(request, user, settings.AUTH_BACKEND_DEFAULT)
             return redirect('blog:post_list')
         context['form'] = form
     else:
         form = SignupModelForm()
         context['form'] = form
-        return render(request, 'member/signup.html', context)
+    return render(request, 'member/signup.html', context)
