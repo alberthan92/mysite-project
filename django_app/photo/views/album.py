@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Album
 from ..forms import AlbumForm
 
 __all__ = [
     'album_list',
     'album_add',
+    'album_detail',
 ]
 
 def album_list(request):
@@ -26,9 +27,16 @@ def album_add(request):
                 owner=request.user,
             )
             return redirect('photo:album_list')
-        else:
-            form = AlbumForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'photo/album_add.html', context)
+    else:
+        form = AlbumForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'photo/album_add.html', context)
+
+def album_detail(request, pk):
+    album = get_object_or_404(Album, pk=pk)
+    context = {
+        'album': album,
+    }
+    return render(request, 'photo/album_detail.html', context)
