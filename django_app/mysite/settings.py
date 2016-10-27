@@ -51,7 +51,7 @@ AUTH_BACKEND_DEFAULT = 'django.contrib.auth.backends.ModelBackend'
 AUTH_BACKEND_FACEBOOK = 'member.backends.FacebookBackend'
 AUTHENTICATION_BACKENDS = [
     AUTH_BACKEND_DEFAULT,
-    AUTH_BACKEND_FACEBOOK,
+    AUTH_BACKEND_FACEBOOK
 ]
 
 # Email
