@@ -3,7 +3,7 @@
 {% block content %}
 <div id="album_list">
     <h4>Album list</h4>
-    <a href="{% url 'photo:album_add' %}">
+    <a href="{% url 'photo:album_add' %}" class="btn btn-default btn-sm btn-top-right">
         <span class="glyphicon glyphicon-plus"></span>
         Add Album
     </a>
@@ -12,7 +12,7 @@
         <li class="list-group-item">
             <span class="badge">{{ album.photo_set.count }}</span>
             <div>
-                <a href="">{{ album.title }}</a>
+                <a href="{% url 'photo:album_detail' pk=album.pk %}">{{ album.title }}</a>
             </div>
             <span>{{ album.owner.email }}</span>
             {% if album.description %}
