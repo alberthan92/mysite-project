@@ -1,0 +1,56 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div id="album_detail">
+    <h4>{{ album.title }}</h4>
+    <div>
+        <span>{{ album.owner.email }}</span>
+        {% if album.description %}
+        <span>| {{ album.description }}</span>
+        {% endif %}
+    </div>
+    <a href="{% url 'photo:photo_add' album_pk=album.pk %}">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add Photo
+    </a>
+    <div class="photo-list">
+        {% for photo in album.photo_set.all %}
+        <div class="col-xs-6 col-md-3">
+            <div href="" class="thumbnail">
+                <a href="">
+                    <img src="{{ photo.img_thumbnail.url }}" alt="">
+                </a>
+                <div class="caption">
+                    <div>
+                        <strong>{{ photo.title }}</strong>
+                    </div>
+                    <div>
+                        <span>{{ photo.owner }}</span>
+                        {% if photo.description %}
+                        <span>| {{ photo.description }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="like-container">
+                        <form id="like" action="{% url 'photo:photo_like' pk=photo.pk like_type='like' %}" method="POST" class="like-form">{% csrf_token %}
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                <span>{{ photo.like_users.count }}</span>
+                            </button>
+                        </form>
+
+                        <form id="dislike" action="{% url 'photo:photo_like' pk=photo.pk like_type='dislike' %}" method="POST" class="like-form">{% csrf_token %}
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                <span>{{ photo.dislike_users.count }}</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
