@@ -35,6 +35,9 @@ class Photo(models.Model):
         if image_changed:
             self.make_thumbnail()
 
+    def url_thumbnail(self):
+        return self.url_field('img_thumbnail')
+
     def make_thumbnail(self):
         import os
         from PIL import Image, ImageOps
