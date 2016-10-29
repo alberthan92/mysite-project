@@ -1,2 +1,5 @@
+.content container { position: relative; }
+
+.content container .btn-top-right { position: absolute; right: 0; top: -10px; }
 
 /*# sourceMappingURL=common.compact.css.map */
